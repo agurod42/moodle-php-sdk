@@ -61,20 +61,20 @@ class User extends ModelBase {
     }
 
     public function getLastName() {
-        return $this->LastName;
+        return $this->lastName;
     }
 
-    public function setLastName($LastName) {
-        $this->LastName = $LastName;
+    public function setLastName($lastName) {
+        $this->lastName = $lastName;
         return $this;
     }
 
     public function getFullName() {
-        return $this->FullName;
+        return $this->fullName;
     }
 
-    public function setFullName($FullName) {
-        $this->FullName = $FullName;
+    public function setFullName($fullName) {
+        $this->fullName = $fullName;
         return $this;
     }
 
