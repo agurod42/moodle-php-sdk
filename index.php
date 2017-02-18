@@ -5,8 +5,8 @@ ini_set('display_errors', 1);
 
 require_once 'vendor/autoload.php';
 
-use \MoodleSDK\Auth\AuthTokenCredential;
 use \MoodleSDK\Api\Model\User;
+use \MoodleSDK\Auth\AuthTokenCredential;
 use \MoodleSDK\Rest\RestApiContext;
 
 $context = new RestApiContext('uycls185');
