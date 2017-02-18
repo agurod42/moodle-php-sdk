@@ -1,0 +1,19 @@
+{
+    "name": "agurz/moodle-php-sdk",
+    "description": "PHP SDK for Moodle RESTful APIs",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Agustín Rodríguez",
+            "email": "agurz@icloud.com"
+        }
+    ],
+    "require": {
+        "zeptech/annotations": "1.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "MoodleSDK\\": "src"
+        }
+    }
+}
