@@ -14,6 +14,7 @@ class UserPreference extends ModelBase {
 
     public function setUsers($users) {
         $this->users = $users;
+        return $this;
     }
 
 }

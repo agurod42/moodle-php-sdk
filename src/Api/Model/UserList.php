@@ -17,6 +17,7 @@ class UserList extends ModelBaseList {
 
     public function setUsers($users) {
         $this->list = $users;
+        return $this;
     }
     
     /**
@@ -28,6 +29,7 @@ class UserList extends ModelBaseList {
 
     public function setWarnings($warnings) {
         $this->warnings = $warnings;
+        return $this;
     }
 
 }

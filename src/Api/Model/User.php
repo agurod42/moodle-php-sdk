@@ -39,6 +39,7 @@ class User extends ModelBase {
 
     public function setId($id) {
         $this->id = $id;
+        return $this;
     }
 
     public function getUsername() {
@@ -47,6 +48,7 @@ class User extends ModelBase {
 
     public function setUsername($username) {
         $this->username = $username;
+        return $this;
     }
 
     public function getFirstName() {
@@ -55,6 +57,7 @@ class User extends ModelBase {
 
     public function setFirstName($firstName) {
         $this->firstName = $firstName;
+        return $this;
     }
 
     public function getLastName() {
@@ -63,6 +66,7 @@ class User extends ModelBase {
 
     public function setLastName($LastName) {
         $this->LastName = $LastName;
+        return $this;
     }
 
     public function getFullName() {
@@ -71,6 +75,7 @@ class User extends ModelBase {
 
     public function setFullName($FullName) {
         $this->FullName = $FullName;
+        return $this;
     }
 
     /**
@@ -82,6 +87,7 @@ class User extends ModelBase {
 
     public function setPreferences($preferences) {
         $this->preferences = $preferences;
+        return $this;
     }
 
 }
