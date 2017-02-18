@@ -7,13 +7,26 @@ class User extends ModelBase {
 
     private $id;
     private $username;
+    private $password;
     private $firstName;
     private $lastName;
     private $fullName;
+    private $email;
     private $preferences;
 
-    public function create() {
-        
+    public function create(ApiContext $apiContext) {
+        $json = $this->apiCall($apiContext, 'core_user_create_users', [
+            'users' => [
+                $this->toArray()
+            ]
+        ]);
+
+        return $json;
+    }
+ 
+    public function update(ApiContext $apiContext) {
+        $json = $this->apiCall($apiContext, 'core_user_update_users', $this->toArray());
+        return $json;
     }
 
     public function all(ApiContext $apiContext) {
@@ -29,6 +42,10 @@ class User extends ModelBase {
         $list = new UserList();
         $list->fromJSON($json);
         return $list;
+    }
+
+    public function toArrayExcludedProperties() {
+        return ['fullname'];
     }
 
     // Properties Getters & Setters
@@ -48,6 +65,15 @@ class User extends ModelBase {
 
     public function setUsername($username) {
         $this->username = $username;
+        return $this;
+    }
+
+    public function getPassword() {
+        return $this->password;
+    }
+
+    public function setPassword($password) {
+        $this->password = $password;
         return $this;
     }
 
@@ -75,6 +101,15 @@ class User extends ModelBase {
 
     public function setFullName($fullName) {
         $this->fullName = $fullName;
+        return $this;
+    }
+
+    public function getEmail() {
+        return $this->email;
+    }
+
+    public function setEmail($email) {
+        $this->email = $email;
         return $this;
     }
 

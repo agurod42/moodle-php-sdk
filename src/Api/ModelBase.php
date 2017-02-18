@@ -50,7 +50,34 @@ abstract class ModelBase {
     }
 
     public function toArray() {
-        return '';
+        $arr = [];
+
+        Reflection::forEachGetter($this, function($method) use (&$arr) {
+            $k = strtolower(substr($method, 3));
+
+            if (!method_exists($this, 'toArrayExcludedProperties') || !in_array($k, $this->toArrayExcludedProperties())) {
+                $v = $this->{$method}();
+                $arr[$k] = $this->valueToArray($v);
+            }
+        });
+
+        return $arr;
+    }
+
+    private function valueToArray($value) {
+        if (is_array($value)) {
+            $arr = [];
+            foreach($value as $k => $v) {
+                $arr[$k] = $this->valueToArray($v);
+            }
+            return $arr;
+        }
+        else if ($value instanceof ModelBase) {
+            return $value->toArray();
+        }
+        else {
+            return $value;
+        }
     }
 
     public function toJSON() {

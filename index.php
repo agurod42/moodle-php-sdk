@@ -16,4 +16,15 @@ $context->setSecureConnection(false);
 $user = new User();
 $userList = $user->all($context);
 
-var_dump($userList[0]);
+print_r(
+
+    $user
+        ->setUsername('agurodriguez')
+        ->setPassword('Test..01')
+        ->setFirstName('Agustín')
+        ->setLastName('Rodríguez')
+        ->setFullName('Agustín Rodríguez')
+        ->setEmail('agurz@icloud.com')
+        ->create($context)
+
+);

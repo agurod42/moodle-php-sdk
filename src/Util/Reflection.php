@@ -5,6 +5,14 @@ use MoodleSDK\Api\ModelBase;
 
 class Reflection {
 
+    public static function forEachGetter(ModelBase $object, $callback) {
+        foreach (get_class_methods($object) as $method) {
+            if (strpos($method, 'get') === 0) {
+                $callback($method);
+            }
+        }
+    }
+
     public static function getPropertyGetter(ModelBase $object, $property) {
         foreach (get_class_methods($object) as $method) {
             if (strpos($method, 'get') === 0 && strtolower($method) === 'get'.strtolower($property)) {
