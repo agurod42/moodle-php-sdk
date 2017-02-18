@@ -1,6 +1,6 @@
 <?php namespace MoodleSDK\Api;
 
-class ModelBaseList extends ModelBase implements \ArrayAccess, \Countable {
+abstract class ModelBaseList extends ModelBase implements \ArrayAccess, \Countable {
 
     protected $list = [];
 

@@ -3,7 +3,7 @@
 use MoodleSDK\Api\ApiContext;
 use MoodleSDK\Util\Reflection;
 
-class ModelBase {
+abstract class ModelBase {
 
     public function __construct() {
     }
