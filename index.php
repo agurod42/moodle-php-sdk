@@ -16,4 +16,4 @@ $context->setSecureConnection(false);
 $user = new User();
 $userList = $user->all($context);
 
-echo '<pre>'.print_r($userList->getUsers(), JSON_PRETTY_PRINT).'</pre>';
+var_dump($userList[0]);

@@ -1,10 +1,9 @@
 <?php namespace MoodleSDK\Api\Model;
 
-use MoodleSDK\Api\ModelBase;
+use MoodleSDK\Api\ModelBaseList;
 
-class UserList extends ModelBase {
+class UserList extends ModelBaseList {
 
-    private $users;
     private $warnings;
 
     // Properties Getters & Setters
@@ -13,11 +12,11 @@ class UserList extends ModelBase {
      * @return User[]
      */
     public function getUsers() {
-        return $this->users;
+        return $this->list;
     }
 
     public function setUsers($users) {
-        $this->users = $users;
+        $this->list = $users;
     }
     
     /**
