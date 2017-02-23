@@ -16,8 +16,8 @@ class RestApiContextTest extends TestCase {
         return [
             [
                 (new RestApiContext())
-                    ->setUrl('fusionar.ddns.net:2118/moodle')
-                    ->setCredential(new AuthTokenCredential('fd47e3a65abc8e45464296bd062aa001'))
+                    ->setUrl(getenv('MOODLE_API_URL'))
+                    ->setCredential(new AuthTokenCredential(getenv('MOODLE_API_TOKEN')))
             ]
         ];
     }

@@ -17,8 +17,8 @@ class RestApiCallTest extends TestCase {
     public function callProvider() {
         if (!$this->context) {
             $this->context = (new RestApiContext())
-                                ->setUrl('fusionar.ddns.net:2118/moodle')
-                                ->setCredential(new AuthTokenCredential('fd47e3a65abc8e45464296bd062aa001'));
+                                ->setUrl(getenv('MOODLE_API_URL'))
+                                ->setCredential(new AuthTokenCredential(getenv('MOODLE_API_TOKEN')));
         }
 
         $call = $this->context->newCall('core_webservice_get_site_info', []);
