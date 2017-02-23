@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  */
 class RestApiContextTest extends TestCase {
 
-    public function newAvailableContext() {
+    public function availableContextProvider() {
         return [
             [
                 (new RestApiContext())
@@ -22,7 +22,7 @@ class RestApiContextTest extends TestCase {
         ];
     }
 
-    public function newUnavailableContext() {
+    public function unavailableContextProvider() {
         return [
             [
                 (new RestApiContext())
@@ -32,14 +32,14 @@ class RestApiContextTest extends TestCase {
     }
 
     /**
-    * @dataProvider newAvailableContext
+    * @dataProvider availableContextProvider
     */
     public function testTestApiAvailability($context) {
         $this->assertTrue($context->testApiAvailability());
     }
 
     /**
-    * @dataProvider newUnavailableContext
+    * @dataProvider unavailableContextProvider
     * @expectedException PHPUnit_Framework_Error
     */
     public function testTestApiAvailabilityWithUnavailableApi($context) {
@@ -47,7 +47,7 @@ class RestApiContextTest extends TestCase {
     }
 
     /**
-    * @dataProvider newAvailableContext
+    * @dataProvider availableContextProvider
     */
     public function testNewCall($context) {
         $this->assertInstanceOf(
