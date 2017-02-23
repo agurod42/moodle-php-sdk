@@ -64,9 +64,9 @@ class RestApiContext implements ApiContext {
     }
 
     public function setHostname($hostname) {
-        $hostnameComponents = explode($hostname);
+        $hostnameComponents = explode(':', $hostname);
 
-        if (count() > 1) {
+        if (count($hostnameComponents) > 1) {
             $this->setPort((int)$hostnameComponents[1]);
         }
 
