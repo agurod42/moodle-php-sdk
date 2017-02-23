@@ -15,22 +15,9 @@ class RestApiContext implements ApiContext {
     private $port;
     private $protocol = 'tcp';
     private $responseType;
-    private $secureConnection = true;
 
-    public function __construct($url) {
-        $this->setUrl($url);
+    public function __construct() {
         $this->setResponseType('json');
-
-        if (!$this->isApiAvailable()) {
-            throw new \Exception('API is unavailable. Cannot connect to '.$this->getUrl());
-        }
-    }
-
-    public function isApiAvailable() {
-        $errno = 0;
-        $errstr = '';
-        $socket = fsockopen($this->protocol.'://'.$this->getHost(), $this->getPort(), $errno, $errstr);
-        return !!$socket;
     }
 
     public function newCall($method, $payload) {
@@ -43,26 +30,24 @@ class RestApiContext implements ApiContext {
         return $call;
     }
 
-    public function getWebServiceUrl() {
+    private function getWebServiceUrl() {
         $scheme = $this->getSecureConnection() ? 'https' : 'http';
         $credentialParam = $this->credential->toQueryStringParam();
         $responseTypeParam = 'moodlewsrestformat='.$this->getResponseType();
         return $scheme.'://'.$this->getUrl().'/webservice/rest/server.php?'.$responseTypeParam.'&'.$credentialParam;
     }
 
-    private function getUrl() {
-        $url = $this->getHost();
-        $url .= ':'.$this->getPort();
-        $url .= $this->getPath();
-        return $url;
-    }
+    public function testApiAvailability() {
+        $errno = 0;
+        $errstr = '';
 
-    private function setUrl($url) {
-        $components = parse_url($url);
+        $socket = fsockopen($this->protocol.'://'.$this->getHost(), $this->getPort(), $errno, $errstr);
 
-        $this->setHost($components['host']);
-        $this->setPath($components['path']);
-        $this->setPort((int)$components['port']);
+        if (!$socket) {
+            trigger_error('API is unavailable. Cannot connect to '.$this->getUrl(), E_USER_ERROR);
+        }
+
+        return true;
     }
 
     // Properties Getters & Setters
@@ -80,7 +65,7 @@ class RestApiContext implements ApiContext {
         return $this->credential;
     }
 
-    public function setCredential(AuthTokenCredential $credential) {
+    public function setCredential($credential) {
         $this->credential = $credential;
         return $this;
     }
@@ -104,11 +89,34 @@ class RestApiContext implements ApiContext {
     }
 
     public function getPort() {
-        return $this->port ?: ($this->getSecureConnection() ? 443 : 80);
+        return $this->port;
     }
 
     public function setPort($port) {
         $this->port = $port;
+        return $this;
+    }
+
+    public function getUrl() {
+        $url = $this->getHost();
+        $url .= ':'.$this->getPort();
+        $url .= $this->getPath();
+        return $url;
+    }
+
+    public function setUrl($url) {
+        $components = parse_url($url);
+
+        $this->setHost($components['host'] ?: $components['path']);
+        $this->setPath($components['path'] ?: '');
+        $this->setPort((int)$components['port'] ?: 0);
+
+        if (!$this->getPort()) {
+            $scheme = $components['scheme'] ?: 'http';
+            $port = $scheme === 'https' ? 443 : 80;
+            $this->setPort($port);
+        }
+
         return $this;
     }
 
@@ -125,13 +133,5 @@ class RestApiContext implements ApiContext {
 
         return $this;
     }
- 
-    public function getSecureConnection() {
-        return $this->secureConnection;
-    }
 
-    public function setSecureConnection($secureConnection) {
-        $this->secureConnection = $secureConnection;
-        return $this;
-    }
 }
