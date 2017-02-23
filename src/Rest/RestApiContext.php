@@ -7,6 +7,8 @@ class RestApiContext implements ApiContext {
 
     const RESPONSE_TYPE_ALLOWED = ['json']; // xml should be here on the future
 
+    private $debug = false;
+
     private $credential;
     private $host;
     private $path;
@@ -32,8 +34,12 @@ class RestApiContext implements ApiContext {
     }
 
     public function newCall($method, $payload) {
-        $call->setResponseType($this->getResponseType());
         $call = new RestApiCall($this->getWebServiceUrl(), $method, $payload);
+
+        $call
+            ->setDebug($this->getDebug())
+            ->setResponseType($this->getResponseType());
+
         return $call;
     }
 
@@ -60,6 +66,15 @@ class RestApiContext implements ApiContext {
     }
 
     // Properties Getters & Setters
+
+    public function getDebug() {
+        return $this->debug;
+    }
+
+    public function setDebug($debug) {
+        $this->debug = $debug;
+        return $this;
+    }
 
     public function getCredential() {
         return $this->credential;

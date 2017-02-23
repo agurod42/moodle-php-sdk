@@ -1,8 +1,11 @@
 <?php namespace MoodleSDK\Rest;
 
 use MoodleSDK\Api\ApiCall;
+use MoodleSDK\Log\ConsoleLog;
 
 class RestApiCall implements ApiCall {
+
+    private $debug;
 
     private $method;
     private $payload;
@@ -22,6 +25,12 @@ class RestApiCall implements ApiCall {
     public function execute() {
         $curl = curl_init();
         $payloadQueryString = http_build_query($this->payload);
+
+        if ($this->getDebug()) {
+            ConsoleLog::i()
+                ->section('cURL request: POST '.$this->url)
+                ->info($this->url.'&wsfunction='.$this->method.'&'.$payloadQueryString);
+        }
         
         curl_setopt_array($curl, [
             CURLOPT_URL => $this->url.'&wsfunction='.$this->method.'&'.$payloadQueryString,
@@ -42,6 +51,14 @@ class RestApiCall implements ApiCall {
         $info = curl_getinfo($curl);
         $err = curl_error($curl);
 
+        if ($this->getDebug()) {
+            ConsoleLog::i()
+                ->section('cURL response')
+                ->info(htmlentities($response))
+                ->infoAnx('INFO: '.json_encode($info))
+                ->infoAnx('ERR: '.$err);
+        }
+
         curl_close($curl);
 
         if ($err) {
@@ -53,6 +70,15 @@ class RestApiCall implements ApiCall {
     }
 
     // Properties Getters & Setters
+
+    public function getDebug() {
+        return $this->debug;
+    }
+
+    public function setDebug($debug) {
+        $this->debug = $debug;
+        return $this;
+    }
 
     public function getResponseType() {
         return $this->responseType;
