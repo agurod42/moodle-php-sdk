@@ -13,7 +13,8 @@
     },
     "autoload": {
         "psr-4": {
-            "MoodleSDK\\": "src"
+            "MoodleSDK\\": "src",
+            "MoodleSDK\\Tests\\": "tests"
         }
     },
     "require-dev": {

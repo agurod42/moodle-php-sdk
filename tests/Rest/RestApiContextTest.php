@@ -1,34 +1,24 @@
-<?php 
+<?php namespace MoodleSDK\Tests\Rest;
 
 use MoodleSDK\Api\ApiCall;
 use MoodleSDK\Auth\AuthTokenCredential;
 use MoodleSDK\Rest\RestApiCall;
 use MoodleSDK\Rest\RestApiContext;
+use MoodleSDK\Tests\Common\ContextTestCase;
 
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers RestApiContext
  */
-class RestApiContextTest extends TestCase {
+class RestApiContextTest extends ContextTestCase {
 
     public function availableContextProvider() {
-        return [
-            [
-                (new RestApiContext())
-                    ->setUrl(getenv('MOODLE_API_URL'))
-                    ->setCredential(new AuthTokenCredential(getenv('MOODLE_API_TOKEN')))
-            ]
-        ];
+        return [[$this->getContext()]];
     }
 
     public function unavailableContextProvider() {
-        return [
-            [
-                (new RestApiContext())
-                    ->setUrl('unavailable-host')
-            ]
-        ];
+        return [[(new RestApiContext())->setUrl('unavailable-host')]];
     }
 
     /**
