@@ -2,7 +2,7 @@
 
 use MoodleSDK\Api\ApiCall;
 use MoodleSDK\Auth\AuthTokenCredential;
-use MoodleSDK\Log\ConsoleLog;
+use MoodleSDK\Rest\RestApiCall;
 use MoodleSDK\Rest\RestApiContext;
 
 use PHPUnit\Framework\TestCase;
@@ -44,6 +44,16 @@ class RestApiContextTest extends TestCase {
     */
     public function testTestApiAvailabilityWithUnavailableApi($context) {
         $context->testApiAvailability();
+    }
+
+    /**
+    * @dataProvider newAvailableContext
+    */
+    public function testNewCall($context) {
+        $this->assertInstanceOf(
+            RestApiCall::class,
+            $context->newCall('test', [])
+        );
     }
 
 }

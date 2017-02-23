@@ -31,7 +31,7 @@ class RestApiContext implements ApiContext {
     }
 
     private function getWebServiceUrl() {
-        $scheme = $this->getSecureConnection() ? 'https' : 'http';
+        $scheme = $this->getPort === 443 ? 'https' : 'http';
         $credentialParam = $this->credential->toQueryStringParam();
         $responseTypeParam = 'moodlewsrestformat='.$this->getResponseType();
         return $scheme.'://'.$this->getUrl().'/webservice/rest/server.php?'.$responseTypeParam.'&'.$credentialParam;
