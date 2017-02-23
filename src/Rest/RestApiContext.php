@@ -51,6 +51,7 @@ class RestApiContext implements ApiContext {
 
     public function setCredential(AuthTokenCredential $credential) {
         $this->credential = $credential;
+        return $this;
     }
 
     public function getHostname($includePort = false) {
@@ -71,6 +72,8 @@ class RestApiContext implements ApiContext {
         }
 
         $this->hostname = $hostnameComponents[0];
+
+        return $this;
     }
 
     public function getPort() {
@@ -79,6 +82,7 @@ class RestApiContext implements ApiContext {
 
     public function setPort($port) {
         $this->port = $port;
+        return $this;
     }
 
     public function getResponseType() {
@@ -91,6 +95,8 @@ class RestApiContext implements ApiContext {
         }
 
         $this->responseType = $responseType;
+
+        return $this;
     }
  
     public function getSecureConnection() {
@@ -99,5 +105,6 @@ class RestApiContext implements ApiContext {
 
     public function setSecureConnection($secureConnection) {
         $this->secureConnection = $secureConnection;
+        return $this;
     }
 }

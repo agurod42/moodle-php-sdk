@@ -60,6 +60,7 @@ class RestApiCall implements ApiCall {
 
     public function setResponseType($responseType) {
         $this->responseType = $responseType;
+        return $this;
     }
 
 }
