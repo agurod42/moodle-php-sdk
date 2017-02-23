@@ -8,39 +8,55 @@ class RestApiContext implements ApiContext {
     const RESPONSE_TYPE_ALLOWED = ['json']; // xml should be here on the future
 
     private $credential;
-    private $hostname;
+    private $host;
+    private $path;
     private $port;
     private $protocol = 'tcp';
     private $responseType;
     private $secureConnection = true;
 
-    public function __construct($hostname) {
-        $this->setHostname($hostname);
+    public function __construct($url) {
+        $this->setUrl($url);
         $this->setResponseType('json');
 
         if (!$this->isApiAvailable()) {
-            throw new \Exception('API is unavailable. Cannot connect to '.$this->getHostname(true));
+            throw new \Exception('API is unavailable. Cannot connect to '.$this->getUrl());
         }
     }
 
     public function isApiAvailable() {
         $errno = 0;
         $errstr = '';
-        $socket = fsockopen($this->protocol.'://'.$this->getHostname(), $this->getPort(), $errno, $errstr);
+        $socket = fsockopen($this->protocol.'://'.$this->getHost(), $this->getPort(), $errno, $errstr);
         return !!$socket;
     }
 
     public function newCall($method, $payload) {
-        $call = new RestApiCall($this->getUrl(), $method, $payload);
         $call->setResponseType($this->getResponseType());
+        $call = new RestApiCall($this->getWebServiceUrl(), $method, $payload);
         return $call;
     }
 
-    public function getUrl() {
+    public function getWebServiceUrl() {
         $scheme = $this->getSecureConnection() ? 'https' : 'http';
         $credentialParam = $this->credential->toQueryStringParam();
         $responseTypeParam = 'moodlewsrestformat='.$this->getResponseType();
-        return $scheme.'://'.$this->getHostname(true).'/webservice/rest/server.php?'.$responseTypeParam.'&'.$credentialParam;
+        return $scheme.'://'.$this->getUrl().'/webservice/rest/server.php?'.$responseTypeParam.'&'.$credentialParam;
+    }
+
+    private function getUrl() {
+        $url = $this->getHost();
+        $url .= ':'.$this->getPort();
+        $url .= $this->getPath();
+        return $url;
+    }
+
+    private function setUrl($url) {
+        $components = parse_url($url);
+
+        $this->setHost($components['host']);
+        $this->setPath($components['path']);
+        $this->setPort((int)$components['port']);
     }
 
     // Properties Getters & Setters
@@ -54,25 +70,21 @@ class RestApiContext implements ApiContext {
         return $this;
     }
 
-    public function getHostname($includePort = false) {
-        $hostname = $this->hostname;
-
-        if ($includePort) {
-            $hostname .= ':'.$this->getPort();
-        }
-
-        return $hostname;
+    public function getHost() {
+        return $this->host;
     }
 
-    public function setHostname($hostname) {
-        $hostnameComponents = explode(':', $hostname);
+    public function setHost($host) {
+        $this->host = $host;
+        return $this;
+    }
 
-        if (count($hostnameComponents) > 1) {
-            $this->setPort((int)$hostnameComponents[1]);
-        }
+    public function getPath() {
+        return $this->path;
+    }
 
-        $this->hostname = $hostnameComponents[0];
-
+    public function setPath($path) {
+        $this->path = $path;
         return $this;
     }
 
