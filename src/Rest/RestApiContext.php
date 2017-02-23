@@ -9,12 +9,25 @@ class RestApiContext implements ApiContext {
 
     private $credential;
     private $hostname;
+    private $port;
+    private $protocol = 'tcp';
     private $responseType;
     private $secureConnection = true;
 
     public function __construct($hostname) {
         $this->setHostname($hostname);
         $this->setResponseType('json');
+
+        if (!$this->isApiAvailable()) {
+            throw new \Exception('API is unavailable. Cannot connect to '.$this->getHostname(true));
+        }
+    }
+
+    public function isApiAvailable() {
+        $errno = 0;
+        $errstr = '';
+        $socket = fsockopen($this->protocol.'://'.$this->getHostname(), $this->getPort(), $errno, $errstr);
+        return !!$socket;
     }
 
     public function newCall($method, $payload) {
@@ -27,7 +40,7 @@ class RestApiContext implements ApiContext {
         $scheme = $this->getSecureConnection() ? 'https' : 'http';
         $credentialParam = $this->credential->toQueryStringParam();
         $responseTypeParam = 'moodlewsrestformat='.$this->getResponseType();
-        return $scheme.'://'.$this->getHostname().'/webservice/rest/server.php?'.$responseTypeParam.'&'.$credentialParam;
+        return $scheme.'://'.$this->getHostname(true).'/webservice/rest/server.php?'.$responseTypeParam.'&'.$credentialParam;
     }
 
     // Properties Getters & Setters
@@ -40,12 +53,32 @@ class RestApiContext implements ApiContext {
         $this->credential = $credential;
     }
 
-    public function getHostname() {
-        return $this->hostname;
+    public function getHostname($includePort = false) {
+        $hostname = $this->hostname;
+
+        if ($includePort) {
+            $hostname .= ':'.$this->getPort();
+        }
+
+        return $hostname;
     }
 
     public function setHostname($hostname) {
-        $this->hostname = $hostname;
+        $hostnameComponents = explode($hostname);
+
+        if (count() > 1) {
+            $this->setPort((int)$hostnameComponents[1]);
+        }
+
+        $this->hostname = $hostnameComponents[0];
+    }
+
+    public function getPort() {
+        return $this->port ?: ($this->getSecureConnection() ? 443 : 80);
+    }
+
+    public function setPort($port) {
+        $this->port = $port;
     }
 
     public function getResponseType() {

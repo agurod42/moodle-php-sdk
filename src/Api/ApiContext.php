@@ -2,6 +2,8 @@
 
 interface ApiContext {
 
+    function isApiAvailable();
+
     function newCall($method, $payload);
 
 }
