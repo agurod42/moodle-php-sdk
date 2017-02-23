@@ -54,7 +54,7 @@ class RestApiCall implements ApiCall {
         if ($this->getDebug()) {
             ConsoleLog::i()
                 ->section('cURL response')
-                ->info(htmlentities($response))
+                ->info($response)
                 ->infoAnx('INFO: '.json_encode($info))
                 ->infoAnx('ERR: '.$err);
         }
