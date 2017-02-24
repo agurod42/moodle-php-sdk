@@ -14,6 +14,19 @@ class User extends ModelBase {
     private $email;
     private $preferences;
 
+    public function get(ApiContext $apiContext) {
+        $json = $this->apiCall($apiContext, 'core_user_get_users_by_field', [
+            'field' => 'username',
+            'values' => [$this->getUsername()]
+        ]);
+
+        $results = json_decode($json);
+
+        $this->fromObject($results[0]);
+
+        return $this;
+    }
+
     public function create(ApiContext $apiContext) {
         $json = $this->apiCall($apiContext, 'core_user_create_users', [
             'users' => [
@@ -25,7 +38,20 @@ class User extends ModelBase {
     }
  
     public function update(ApiContext $apiContext) {
-        $json = $this->apiCall($apiContext, 'core_user_update_users', $this->toArray());
+        $json = $this->apiCall($apiContext, 'core_user_update_users', [
+            'users' => [
+                $this->toArray()
+            ]
+        ]);
+
+        return $json;
+    }
+
+    public function delete(ApiContext $apiContext) {
+        $json = $this->apiCall($apiContext, 'core_user_delete_users', [
+            'userids' => [$this->getId()]
+        ]);
+
         return $json;
     }
 

@@ -7,7 +7,7 @@ class Reflection {
 
     public static function forEachGetter(ModelBase $object, $callback) {
         foreach (get_class_methods($object) as $method) {
-            if (strpos($method, 'get') === 0) {
+            if (strpos($method, 'get') === 0 && strlen($method) > 3) {
                 $callback($method);
             }
         }

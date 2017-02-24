@@ -49,6 +49,10 @@ abstract class ModelBase {
         $this->fromArray(json_decode($data));
     }
 
+    public function fromObject($object) {
+        $this->fromArray((array)$object);
+    }
+
     public function toArray() {
         $arr = [];
 
