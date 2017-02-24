@@ -10,4 +10,4 @@ php:
 before_script:
   - composer install
 
-script: phpunit tests -c phpunit.xml
+script: vendor/phpunit/phpunit/phpunit tests -c phpunit.xml
