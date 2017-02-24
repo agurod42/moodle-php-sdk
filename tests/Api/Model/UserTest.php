@@ -1,6 +1,7 @@
 <?php namespace MoodleSDK\Tests\Api\Model;
 
 use MoodleSDK\Api\Model\User;
+use MoodleSDK\Api\Model\UserList;
 use MoodleSDK\Auth\AuthTokenCredential;
 use MoodleSDK\Rest\RestApiCall;
 use MoodleSDK\Rest\RestApiContext;
@@ -83,6 +84,16 @@ class RestApiCallTest extends ContextTestCase {
             ->delete($context);
         
         $this->assertEmpty((new User())->setUsername(TEST_USERNAME)->get($context)->getId());
+    }
+
+    /**
+    * @dataProvider contextProvider
+    */
+    public function testAll($context) {
+        $userList = $this->user->all($context);
+        
+        $this->assertInstanceOf(UserList::class, $userList);
+        $this->assertGreaterThan(0, count($userList));
     }
 
 }
