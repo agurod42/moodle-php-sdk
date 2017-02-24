@@ -2,8 +2,9 @@
 
 use MoodleSDK\Api\ApiContext;
 use MoodleSDK\Api\ModelBase;
+use MoodleSDK\Api\ModelCRUD;
 
-class User extends ModelBase {
+class User extends ModelBase implements ModelCRUD {
 
     private $id;
     private $username;
