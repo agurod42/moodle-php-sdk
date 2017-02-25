@@ -9,9 +9,9 @@ PHP SDK for Moodle RESTful APIs
 
 1. Create a `RestApiContext` instance
 
-        $context = new RestApiContext('example.com/moodle');
+        $context = new RestApiContext();
         $context
-              ->setUrl()
+              ->setUrl('example.com/moodle')
               ->setCredential(new AuthTokenCredential('token'))
                 
 2. Create a model object instance, set it's properties and call `get`, `add`, `update`, `delete` operations
