@@ -3,16 +3,14 @@
 use MoodleSDK\Api\ApiContext;
 use MoodleSDK\Api\ModelBaseList;
 
-class UserList extends ModelBaseList {
+class CourseList extends ModelBaseList {
 
     private $warnings;
 
     public function all(ApiContext $apiContext) {
-        $json = $this->apiCall($apiContext, 'core_user_get_users', [
-            'criteria' => [
-                [
-                    'key' => 'string',
-                    'value' => 'string'
+        $json = $this->apiCall($apiContext, 'core_course_get_courses', [
+            'options' => [
+                'ids' => [
                 ]
             ]
         ]);

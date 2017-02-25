@@ -4,6 +4,8 @@ abstract class ModelBaseList extends ModelBase implements \ArrayAccess, \Countab
 
     protected $list = [];
 
+    public abstract function all(ApiContext $apiContext);
+
     // ArrayAccess Methods
 
     public function offsetExists($offset) {

@@ -61,19 +61,6 @@ class Course extends ModelBase implements ModelCRUD {
         return $json;
     }
 
-    public function all(ApiContext $apiContext) {
-        // $json = $this->apiCall($apiContext, 'core_course_get_courses', [
-        //     'options' => [
-        //         'ids' => [
-        //         ]
-        //     ]
-        // ]);
-
-        // $list = new UserList();
-        // $list->fromJSON($json);
-        // return $list;
-    }
-
     public function fromArrayExcludedProperties() {
         return ['enrollmentmethods'];
     }

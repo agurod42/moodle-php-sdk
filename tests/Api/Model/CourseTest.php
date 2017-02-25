@@ -86,14 +86,4 @@ class CourseTest extends ContextTestCase {
         $this->assertEmpty((new Course())->setShortName(TEST_COURSE_SHORTNAME)->get($context)->getId());
     }
 
-    /**
-    * @dataProvider contextProvider
-    */
-    // public function testAll($context) {
-    //     $courseList = $this->course->all($context);
-        
-    //     $this->assertInstanceOf(CourseList::class, $courseList);
-    //     $this->assertGreaterThan(0, count($courseList));
-    // }
-
 }

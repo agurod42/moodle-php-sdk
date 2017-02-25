@@ -12,6 +12,4 @@ interface ModelCRUD {
 
     function delete(ApiContext $apiContext);
 
-    function all(ApiContext $apiContext);
-
 }

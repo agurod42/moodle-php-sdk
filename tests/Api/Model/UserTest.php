@@ -86,14 +86,4 @@ class UserTest extends ContextTestCase {
         $this->assertEmpty((new User())->setUsername(TEST_USERNAME)->get($context)->getId());
     }
 
-    /**
-    * @dataProvider contextProvider
-    */
-    public function testAll($context) {
-        $userList = $this->user->all($context);
-        
-        $this->assertInstanceOf(UserList::class, $userList);
-        $this->assertGreaterThan(0, count($userList));
-    }
-
 }

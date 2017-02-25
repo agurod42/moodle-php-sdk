@@ -56,21 +56,6 @@ class User extends ModelBase implements ModelCRUD {
         return $json;
     }
 
-    public function all(ApiContext $apiContext) {
-        $json = $this->apiCall($apiContext, 'core_user_get_users', [
-            'criteria' => [
-                [
-                    'key' => 'string',
-                    'value' => 'string'
-                ]
-            ]
-        ]);
-
-        $list = new UserList();
-        $list->fromJSON($json);
-        return $list;
-    }
-
     public function toArrayExcludedProperties() {
         return ['fullname'];
     }
