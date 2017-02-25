@@ -17,9 +17,12 @@ class CourseList extends ModelBaseList {
         return $this;
     }
 
+    public function searchByUser(ApiContext $apiContext, User $user) {
+        $json = $this->apiCall($apiContext, 'core_enrol_get_users_courses', [
+            'userid' => $user->getId()
+        ]);
 
-    public function setWarnings($warnings) {
-        $this->warnings = $warnings;
+        $this->fromJSON($json);
         return $this;
     }
 

@@ -62,7 +62,7 @@ class Course extends ModelBase implements ModelCRUD {
     }
 
     public function fromArrayExcludedProperties() {
-        return ['enrollmentmethods'];
+        return ['courseformatoptions', 'enrollmentmethods'];
     }
 
     public function toArrayExcludedProperties() {

@@ -1,5 +1,6 @@
 <?php namespace MoodleSDK\Tests\Api\Model;
 
+use MoodleSDK\Api\Model\CourseList;
 use MoodleSDK\Api\Model\User;
 use MoodleSDK\Api\Model\UserList;
 use MoodleSDK\Auth\AuthTokenCredential;
@@ -84,6 +85,19 @@ class UserTest extends ContextTestCase {
             ->delete($context);
         
         $this->assertEmpty((new User())->setUsername(TEST_USERNAME)->get($context)->getId());
+    }
+
+    /**
+    * @dataProvider contextProvider
+    */
+    public function testAllCourses($context) {
+        $courseList = $this->user
+                            ->setUsername(TEST_USERNAME)
+                            ->get($context)
+                            ->allCourses($context);
+        
+        $this->assertInstanceOf(CourseList::class, $courseList);
+        $this->assertGreaterThan(0, count($courseList));
     }
 
 }

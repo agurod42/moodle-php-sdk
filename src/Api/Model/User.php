@@ -60,6 +60,13 @@ class User extends ModelBase implements ModelCRUD {
         return ['fullname'];
     }
 
+    // Getters for Model relationships
+
+    public function allCourses($context) {
+        $courseList = new CourseList();
+        return $courseList->searchByUser($context, $this);
+    }
+
     // Properties Getters & Setters
 
     public function getId() {
