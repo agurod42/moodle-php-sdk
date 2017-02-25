@@ -14,7 +14,7 @@ PHP SDK for Moodle RESTful APIs
               ->setUrl('example.com/moodle')
               ->setCredential(new AuthTokenCredential('token'))
                 
-2. Create a model object instance, set it's properties and call `get`, `add`, `update`, `delete` operations
+2. Create a model object instance, set it's properties and call `get`, `create`, `update`, or `delete` operations
 
         $user = new User();
         $user
