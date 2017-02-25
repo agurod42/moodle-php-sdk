@@ -14,7 +14,7 @@ define(TEST_USERNAME, 'test'.md5('agurz/Moodle-PHP-SDK'));
 /**
  * @covers User
  */
-class RestApiCallTest extends ContextTestCase {
+class UserTest extends ContextTestCase {
 
     private $user;
 
