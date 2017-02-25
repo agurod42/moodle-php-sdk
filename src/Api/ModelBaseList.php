@@ -6,6 +6,20 @@ abstract class ModelBaseList extends ModelBase implements \ArrayAccess, \Countab
 
     public abstract function all(ApiContext $apiContext);
 
+    // ModelBase Methods
+
+    public function fromJSON($data) {
+        $listType = get_called_class();
+        $itemType = substr($listType, 0, strlen($listType) - strlen('List'));
+
+        foreach (json_decode($data) as $itemData) {
+            $item = new $itemType();
+            $item->fromArray($itemData);
+
+            $this->list[] = $item;
+        }
+    }
+
     // ArrayAccess Methods
 
     public function offsetExists($offset) {
