@@ -17,29 +17,33 @@ abstract class ModelBase {
     public function fromArray($data) {
         foreach ($data as $k => $v) {
 
-            if (is_array($v)) {
-                $itemType = Reflection::getPropertyType($this, $k);
-                $items = [];
+            if (!method_exists($this, 'fromArrayExcludedProperties') || !in_array($k, $this->fromArrayExcludedProperties())) {
+                
+                if (is_array($v)) {
+                    $itemType = Reflection::getPropertyType($this, $k);
+                    $items = [];
 
-                foreach ($v as $v_i) {
-                    if ($itemType->isScalar()) {
-                        $items[] = $v_i;
+                    foreach ($v as $v_i) {
+                        if ($itemType->isScalar()) {
+                            $items[] = $v_i;
+                        }
+                        else {
+                            $item = $itemType->newInstance();
+                            $item->fromArray($v_i);
+                            $items[] = $item;
+                        }
                     }
-                    else {
-                        $item = $itemType->newInstance();
-                        $item->fromArray($v_i);
-                        $items[] = $item;
+
+                    $method = Reflection::getPropertySetter($this, $k);
+                    $this->{$method}($items);
+                }
+                else {
+                    $method = Reflection::getPropertySetter($this, $k);
+                    if ($method) {
+                        $this->{$method}($v);
                     }
                 }
 
-                $method = Reflection::getPropertySetter($this, $k);
-                $this->{$method}($items);
-            }
-            else {
-                $method = Reflection::getPropertySetter($this, $k);
-                if ($method) {
-                    $this->{$method}($v);
-                }
             }
 
         }
@@ -78,6 +82,9 @@ abstract class ModelBase {
         }
         else if ($value instanceof ModelBase) {
             return $value->toArray();
+        }
+        else if ($value instanceof \DateTime) {
+            return $value->getTimestamp();
         }
         else {
             return $value;

@@ -18,6 +18,7 @@
         }
     },
     "require-dev": {
+        "nesbot/carbon": "~1.21",
         "phpunit/phpunit": "^5.0",
         "vlucas/phpdotenv": "*"
     }
