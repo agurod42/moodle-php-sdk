@@ -48,7 +48,7 @@ class UserTest extends ContextTestCase {
             ->setEmail('test@example.com')
             ->create($context);
         
-        $this->assertNotEmpty((new User())->setUsername(TEST_USERNAME)->get($context)->getId());
+        $this->assertNotEmpty(User::instance()->setUsername(TEST_USERNAME)->get($context)->getId());
     }
 
     /**
@@ -69,7 +69,7 @@ class UserTest extends ContextTestCase {
 
         $this->assertEquals(
             'TestFirstNameUpdated', 
-            (new User())->setUsername(TEST_USERNAME)->get($context)->getFirstName()
+            User::instance()->setUsername(TEST_USERNAME)->get($context)->getFirstName()
         );
     }
 
@@ -84,7 +84,7 @@ class UserTest extends ContextTestCase {
             ->get($context)
             ->delete($context);
         
-        $this->assertEmpty((new User())->setUsername(TEST_USERNAME)->get($context)->getId());
+        $this->assertEmpty(User::instance()->setUsername(TEST_USERNAME)->get($context)->getId());
     }
 
     /**

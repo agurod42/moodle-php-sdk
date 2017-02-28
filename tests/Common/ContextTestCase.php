@@ -15,7 +15,7 @@ abstract class ContextTestCase extends TestCase {
 
     protected function getContext() {
         if (!$this->context) {
-            $this->context = (new RestApiContext())
+            $this->context = RestApiContext::instance()
                                 ->setUrl(getenv('MOODLE_API_URL'))
                                 ->setCredential(new AuthTokenCredential(getenv('MOODLE_API_TOKEN')));
         }

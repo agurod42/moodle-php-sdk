@@ -95,4 +95,11 @@ abstract class ModelBase {
         return json_encode($this->toArray());
     }
 
+    // Static methods
+
+    public static function instance() {
+        $c = get_called_class();
+        return new $c();
+    }
+
 }

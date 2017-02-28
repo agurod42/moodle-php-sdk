@@ -39,7 +39,7 @@ class CourseTest extends ContextTestCase {
             ->setEndDate(Carbon::now()->addYear())
             ->create($context);
 
-        $this->assertNotEmpty((new Course())->setShortName(TEST_COURSE_SHORTNAME)->get($context)->getId());
+        $this->assertNotEmpty(Course::instance()->setShortName(TEST_COURSE_SHORTNAME)->get($context)->getId());
     }
 
     /**
@@ -68,7 +68,7 @@ class CourseTest extends ContextTestCase {
 
         $this->assertEquals(
             'Course FullName Edited', 
-            (new Course())->setShortName(TEST_COURSE_SHORTNAME)->get($context)->getFullName()
+            Course::instance()->setShortName(TEST_COURSE_SHORTNAME)->get($context)->getFullName()
         );
     }
 
@@ -83,7 +83,7 @@ class CourseTest extends ContextTestCase {
             ->get($context)
             ->delete($context);
         
-        $this->assertEmpty((new Course())->setShortName(TEST_COURSE_SHORTNAME)->get($context)->getId());
+        $this->assertEmpty(Course::instance()->setShortName(TEST_COURSE_SHORTNAME)->get($context)->getId());
     }
 
 }

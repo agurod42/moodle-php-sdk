@@ -134,4 +134,10 @@ class RestApiContext implements ApiContext {
         return $this;
     }
 
+    // Static methods
+
+    public static function instance() {
+        return new RestApiContext();
+    }
+
 }

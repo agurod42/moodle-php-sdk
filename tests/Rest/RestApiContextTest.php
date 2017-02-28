@@ -18,7 +18,7 @@ class RestApiContextTest extends ContextTestCase {
     }
 
     public function unavailableContextProvider() {
-        return [[(new RestApiContext())->setUrl('unavailable-host')]];
+        return [[RestApiContext::instance()->setUrl('unavailable-host')]];
     }
 
     /**
