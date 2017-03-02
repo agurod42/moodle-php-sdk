@@ -44,6 +44,9 @@ class Reflection {
 
     private static function getPropertyReturnAnnotation(ModelBase $object, $property) {
         $method = self::getPropertyGetter($object, $property);
+        if (empty($method)) {
+            var_dump($property);
+        }
         $reflectionMethod = new \ReflectionMethod($object, $method);
         $annotations = new Annotations($reflectionMethod);
 

@@ -65,7 +65,10 @@ abstract class ModelBase {
 
             if (!method_exists($this, 'toArrayExcludedProperties') || !in_array($k, $this->toArrayExcludedProperties())) {
                 $v = $this->{$method}();
-                $arr[$k] = $this->valueToArray($v);
+
+                if (!is_null($v)) {
+                    $arr[$k] = $this->valueToArray($v);
+                }
             }
         });
 

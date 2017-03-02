@@ -61,6 +61,47 @@ class Course extends ModelBase implements ModelCRUD {
         return $json;
     }
 
+    public function enrolledUsers(ApiContext $apiContext) {
+        $json = $this->apiCall($apiContext, 'core_enrol_get_enrolled_users', [
+            'courseid' => $this->getId()
+        ]);
+        
+        $userList = new UserList();
+        $userList->fromJSON($json);
+
+        return $userList;
+    }
+
+    public function enrolUser(ApiContext $apiContext, User $user, $roleId) {
+        $json = $this->apiCall($apiContext, 'enrol_manual_enrol_users', [
+            'enrolments' => [
+                Enrolment::instance()
+                                ->setCourseId($this->getId())
+                                ->setUserId($user->getId())
+                                ->setRoleId($roleId)
+                                ->setTimeStart(null)
+                                ->setTimeEnd(null)
+                                ->toArray()
+            ]
+        ]);
+        
+        return $json;
+    }
+
+    public function unenrolUser(ApiContext $apiContext, User $user, $roleId) {
+        $json = $this->apiCall($apiContext, 'enrol_manual_unenrol_users', [
+            'enrolments' => [
+                Enrolment::instance()
+                                ->setCourseId($this->getId())
+                                ->setUserId($user->getId())
+                                ->setRoleId($roleId)
+                                ->toArray()
+            ]
+        ]);
+
+        return $json;
+    }
+
     public function fromArrayExcludedProperties() {
         return ['courseformatoptions', 'enrollmentmethods'];
     }

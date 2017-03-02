@@ -56,6 +56,10 @@ class User extends ModelBase implements ModelCRUD {
         return $json;
     }
 
+    public function fromArrayExcludedProperties() {
+        return ['enrolledcourses', 'groups', 'roles'];
+    }
+
     public function toArrayExcludedProperties() {
         return ['fullname'];
     }

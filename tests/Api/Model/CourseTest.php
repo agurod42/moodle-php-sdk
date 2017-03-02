@@ -4,13 +4,17 @@ use Carbon\Carbon;
 use MoodleSDK\Api\Model\Course;
 use MoodleSDK\Api\Model\Enum\CourseFormat;
 use MoodleSDK\Api\Model\Enum\CourseSummaryFormat;
+use MoodleSDK\Api\Model\User;
+use MoodleSDK\Api\Model\UserList;
 use MoodleSDK\Rest\RestApiCall;
 use MoodleSDK\Rest\RestApiContext;
 use MoodleSDK\Tests\Common\ContextTestCase;
 
 use PHPUnit\Framework\TestCase;
 
+define(TEST_COURSE_ENROL_ROLE_ID, 1);
 define(TEST_COURSE_SHORTNAME, 'test'.md5('agurz/Moodle-PHP-SDK'));
+define(TEST_DEFAULT_COURSE_SHORTNAME, 'test-course');
 
 /**
  * @covers Course
@@ -74,8 +78,47 @@ class CourseTest extends ContextTestCase {
 
     /**
     * @dataProvider contextProvider
-    * @depends testCreate
     * @depends testUpdate
+    */
+    public function testEnrolledUsers($context) {
+        $enrolledUsers = $this->course
+                                ->setShortName(TEST_DEFAULT_COURSE_SHORTNAME)
+                                ->get($context)
+                                ->enrolledUsers($context);
+        
+        $this->assertInstanceOf(UserList::class, $enrolledUsers);
+        $this->assertGreaterThan(0, count($enrolledUsers));
+    }
+
+    /**
+    * @dataProvider contextProvider
+    * @depends testEnrolledUsers
+    */
+    public function testEnrolUser($context) {
+        $this->course
+            ->setShortName(TEST_COURSE_SHORTNAME)
+            ->get($context)
+            ->enrolUser($context, User::instance()->setUsername('admin')->get($context), TEST_COURSE_ENROL_ROLE_ID);
+        
+        $this->assertGreaterThan(0, count($this->course->enrolledUsers($context)));
+    }
+
+    /**
+    * @dataProvider contextProvider
+    * @depends testEnrolUser
+    */
+    public function testUnenrolUser($context) {
+        $this->course
+            ->setShortName(TEST_COURSE_SHORTNAME)
+            ->get($context)
+            ->unenrolUser($context, User::instance()->setUsername('admin')->get($context), TEST_COURSE_ENROL_ROLE_ID);
+        
+        $this->assertEquals(0, count($this->course->enrolledUsers($context)));
+    }
+
+    /**
+    * @dataProvider contextProvider
+    * @depends testUnenrolUser
     */
     public function testDelete($context) {
         $this->course
