@@ -7,7 +7,7 @@ use MoodleSDK\Tests\Common\ContextTestCase;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers User
+ * @covers UserList
  */
 class UserListTest extends ContextTestCase {
 

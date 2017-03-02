@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 define(TEST_COURSE_SHORTNAME, 'test'.md5('agurz/Moodle-PHP-SDK'));
 
 /**
- * @covers User
+ * @covers Course
  */
 class CourseTest extends ContextTestCase {
 
