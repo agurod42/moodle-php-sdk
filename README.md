@@ -38,6 +38,9 @@ PHP SDK for Moodle RESTful APIs
         
         require_once 'vendor/autoload.php';
         
+        use MoodleSDK\Api\Model\Course;
+        use MoodleSDK\Api\Model\User;
+        use MoodleSDK\Auth\AuthTokenCredential;
         use MoodleSDK\Rest\RestApiContext;
 
         $context = RestApiContext::instance()
