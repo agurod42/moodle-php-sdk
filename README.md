@@ -1,9 +1,7 @@
 # Moodle-PHP-SDK
 PHP SDK for Moodle RESTful APIs
 
-[![Build Status](https://travis-ci.org/agurz/Moodle-PHP-SDK.svg?branch=master)](https://travis-ci.org/agurz/Moodle-PHP-SDK)
-
-*NOTE: This is still in development*
+[![Build Status](https://travis-ci.org/agurodriguez/moodle-php-sdk.svg?branch=master)](https://travis-ci.org/agurodriguez/moodle-php-sdk)
 
 ## Getting Started
 
